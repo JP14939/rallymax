@@ -7,13 +7,12 @@ the full ~20fps motion path.
 """
 import math
 
-# MediaPipe's z (rough, hip-relative monocular depth -- see
-# build_pro_database.py's normalise_landmarks() docstring) turned out to be
+# MediaPipe's z (rough, hip-relative monocular depth) turned out to be
 # on a MUCH wider scale than x/y in practice -- measured directly against a
 # real rebuilt database: abs-median z ~1.83 (range -17.2 to 12.3) vs abs-
-# median x ~0.60. The docstring's assumption that z is "the same normalized
+# median x ~0.60. The assumption that z is "the same normalized
 # image-width units as x/y" does NOT hold empirically. A live before/after
-# test on 4 real saved swings (see this session's z-upgrade plan) showed
+# test on 4 real saved swings showed
 # Z_WEIGHT=0.5 caused similarity scores to drop 45-75% on 3 of 4 clips --
 # z was dominating the distance metric, not contributing a minor signal.
 # DISABLED (0.0) until z is properly rescaled (e.g. normalize by its own
@@ -23,9 +22,9 @@ import math
 Z_WEIGHT = 0.0
 
 # A landmark present on one side only used to be skipped, so a trajectory missing its fastest joint (the hitting
-# wrist) averaged over the slow ones and looked close to everything: it became a DTW hub (2026-10-13, ML_TODO A11b:
-# practice_300087 was the top match for 7/18 held-out pro serves). Now it costs this much, the p90 per-joint distance
-# between heavy-DB queries and their top matches (median 0.33), i.e. "about as far as a bad joint". Missing on both
+# wrist) averaged over the slow ones and looked close to everything: it became a DTW hub (2026-10-13: one practice
+# clip was the top match for 7/18 held-out pro serves). Now it costs this much, the p90 per-joint distance
+# between queries and their top matches (median 0.33), i.e. "about as far as a bad joint". Missing on both
 # sides is still skipped: neither side says anything about it.
 MISSING_JOINT_DIST = 1.18
 
