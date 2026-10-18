@@ -38,7 +38,7 @@ The ML pipeline combines pose estimation, object detection for the ball and rack
 
 ## Production code: swing comparison
 
-[`production/trajectory_compare.py`](production/trajectory_compare.py) is is the live app's code (only comments that pointed at private files were reworded). It answers the core question: how far is this swing from that pro's? Every upload runs it against each eligible pro in the database, and the closest one becomes the match.
+[`production/trajectory_compare.py`](production/trajectory_compare.py) is the live app's code (only comments that pointed at private files were reworded). It answers the core question: how far is this swing from that pro's? Every upload runs it against each eligible pro in the database, and the closest one becomes the match.
 
 - `_frame_dist` turns two poses (one frame each) into one number: the average distance between matching joints, in body-size units.
 - `dtw_distance` runs DTW over whole swings with that cost, `O(n·m)`, and divides by the longer swing's length so short and long clips are comparable.
